@@ -72,6 +72,7 @@ if __name__ == '__main__':
 
 	print(f'BEGIN:VCALENDAR')
 	print(f'VERSION:2.0')
+	print(f'X-WR-CALNAME:{ "BCH holidays" }')
 	print(f'PRODID:{ f"-//{ user }//{ prog }//EN" }')
 
 	for arg in args:
