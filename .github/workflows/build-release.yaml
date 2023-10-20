@@ -1,0 +1,38 @@
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: Build and publish a release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build artifacts
+        run: ./bch_holidays.py -o bch_holidays.ics $( ls tsv/*.tsv | sort )
+
+      - name: Create release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+
+      - name: Upload artifacts
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: bch_holidays.ics
+          asset_name: bch_holidays.ics
+          asset_content_type: text/calendar
+
+# vim: set et: ts=2 sw=0:
