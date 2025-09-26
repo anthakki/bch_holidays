@@ -79,7 +79,9 @@ if __name__ == '__main__':
 		with open(arg, 'r') as stream:
 			for line in TsvReader(stream):
 				summary = line['Holiday']
-				date = parse_us_date( line['Date'] )
+				date_str, observed = re.match( r'^(.*?)((?:\s*[(][^)]*[)])?)$', line['Date'] ).groups()
+				summary = summary + observed
+				date = parse_us_date( date_str )
 
 				d_beg = ical_date( date )
 				d_end = ical_date( date + datetime.timedelta( days = 1 ) )
