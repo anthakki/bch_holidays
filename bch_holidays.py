@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
 	user = 'anthakki'
 	prog = 'bch_holidays'
-	t_now = ical_time( datetime.datetime.utcnow() )
+	t_now = ical_time( datetime.datetime.now( tz = datetime.timezone.utc ) )
 
 	print(f'BEGIN:VCALENDAR')
 	print(f'VERSION:2.0')
